@@ -29,6 +29,6 @@ app.get('/', (req, res) => {
 });
 
 //Archivos Estáticos
-app.set(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 module.exports = app;
