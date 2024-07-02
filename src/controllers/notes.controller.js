@@ -18,5 +18,9 @@ notesCtrl.renderNotes = async (req, res) => {
 };
 
 
+notesCtrl.deleteNote = async (req, res) => {
+    await Note.findByIdAndDelete(req.params.id);
+    res.redirect('/notes');
+};
 
 module.exports = notesCtrl;
