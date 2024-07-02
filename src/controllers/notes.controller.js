@@ -12,6 +12,11 @@ notesCtrl.createNewNote = async (req, res) => {
     res.redirect('/notes');
 };
 
+notesCtrl.renderNotes = async (req, res) => {
+    const notes = await Note.find();
+    res.render('notes/all-notes', { notes });
+};
+
 
 
 module.exports = notesCtrl;
