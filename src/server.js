@@ -1,6 +1,7 @@
 const express = require('express');
 const { create } = require('express-handlebars');
 const path = require('path');
+const morgan = require('morgan');
 
 //Inicializaciones
 const app = express();
@@ -12,12 +13,17 @@ const hbs = create({
     defaultLayout: 'main',
     layoutsDir: path.join(app.get('views'), 'layouts'),
     partialsDir: path.join(app.get('views'), 'partials'),
-    extname: '.hbs'
-})
+    extname: '.hbs',
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true
+    }
+});
 app.engine('.hbs', hbs.engine);
 app.set('view engine', '.hbs');
 
 //Middlewares
+app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
 
 //Variables Globales
@@ -25,6 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 
 //Rutas
 app.use(require('./routes/index.routes'));
+app.use(require('./routes/notes.routes'));
 
 //Archivos Estáticos
 app.use(express.static(path.join(__dirname, 'public')));
