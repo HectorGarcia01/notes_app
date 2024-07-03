@@ -1,10 +1,13 @@
 const User = require('../models/User');
+const passport = require('passport');
 const usersCtrl = {};
 
+//Renderizar el formulario para registrar nuevo usuario
 usersCtrl.renderSignUpForm = (req, res) => {
     res.render('users/signup');
 };
 
+//Crear nuevo usuario
 usersCtrl.signUp = async (req, res) => {
     const errors = [];
     const { name, email, password, confirm_password } = req.body;
@@ -45,8 +48,27 @@ usersCtrl.signUp = async (req, res) => {
     }
 };
 
+//Renderizar el formulario para iniciar sesión
 usersCtrl.renderSignInForm = (req, res) => {
     res.render('users/signin');
+};
+
+//Inicio de sesión
+usersCtrl.signIn = passport.authenticate('local', {
+    failureRedirect: '/users/signin',
+    successRedirect: '/notes',
+    failureFlash: true
+});
+
+//Cerrar sesión
+usersCtrl.logout = (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        req.flash('success_msg', 'Se ha cerrado la sesión con éxito.');
+        res.redirect('/users/signin');
+    });
 };
 
 module.exports = usersCtrl;
