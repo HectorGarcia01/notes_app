@@ -10,23 +10,25 @@ notesCtrl.renderNoteForm = (req, res) => {
 notesCtrl.createNewNote = async (req, res) => {
     try {
         const { title, description } = req.body;
-        const newNote = new Note({ title, description });
+        const user = req.user._id;
+        const newNote = new Note({ title, description, user });
         await newNote.save();
-        req.flash('success_msg', 'Nota agregada con éxito');
+        
+        req.flash('success_msg', 'Nota agregada con éxito.');
         res.redirect('/notes');
     } catch (error) {
-        req.flash('error_msg', 'Error al agregar la nota');
-        res.redirect('/notes/new');
+        req.flash('error_msg', 'Error al agregar la nota.');
+        res.redirect('/notes/add');
     }
 };
 
 //Renderizar todas las notas
 notesCtrl.renderNotes = async (req, res) => {
     try {
-        const notes = await Note.find();
+        const notes = await Note.find({ user: req.user._id }).sort({ createdAt: 'desc' });
         res.render('notes/all-notes', { notes });
     } catch (error) {
-        req.flash('error_msg', 'Error al obtener las notas');
+        req.flash('error_msg', 'Error al obtener las notas.');
         res.redirect('/notes');
     }
 };
@@ -37,13 +39,18 @@ notesCtrl.renderEditForm = async (req, res) => {
         const note = await Note.findById(req.params.id);
 
         if (!note) {
-            req.flash('error_msg', 'Nota no encontrada');
+            req.flash('error_msg', 'Nota no encontrada.');
+            return res.redirect('/notes');
+        }
+
+        if (note.user != req.user.id) {
+            req.flash('error_msg', 'No estás autorizado a editar esta nota.');
             return res.redirect('/notes');
         }
 
         res.render('notes/edit-note', { note });
     } catch (error) {
-        req.flash('error_msg', 'Error al obtener la nota');
+        req.flash('error_msg', 'Error al obtener la nota.');
         res.redirect('/notes');
     }
 };
@@ -53,10 +60,10 @@ notesCtrl.updateNote = async (req, res) => {
     try {
         const { title, description } = req.body;
         await Note.findByIdAndUpdate(req.params.id, { title, description });
-        req.flash('success_msg', 'Nota actualizada con éxito');
+        req.flash('success_msg', 'Nota actualizada con éxito.');
         res.redirect('/notes');
     } catch (error) {
-        req.flash('error_msg', 'Error al actualizar la nota');
+        req.flash('error_msg', 'Error al actualizar la nota.');
         res.redirect('/notes');
     }
 };
@@ -64,11 +71,17 @@ notesCtrl.updateNote = async (req, res) => {
 //Eliminar una nota
 notesCtrl.deleteNote = async (req, res) => {
     try {
-        await Note.findByIdAndDelete(req.params.id);
-        req.flash('success_msg', 'Nota eliminada con éxito');
+        const note = await Note.findOneAndDelete({ _id: req.params.id, user: req.user._id});
+
+        if (!note) {
+            req.flash('error_msg', 'Nota no encontrada.');
+            return res.redirect('/notes');
+        }
+        
+        req.flash('success_msg', 'Nota eliminada con éxito.');
         res.redirect('/notes');
     } catch (error) {
-        req.flash('error_msg', 'Error al eliminar la nota');
+        req.flash('error_msg', 'Error al eliminar la nota.');
         res.redirect('/notes');
     }
 };
