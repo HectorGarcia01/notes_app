@@ -34,7 +34,7 @@ notesCtrl.renderNotes = async (req, res) => {
 };
 
 //Renderizar el formulario para editar una nota
-notesCtrl.renderEditForm = async (req, res) => {
+notesCtrl.renderEditForm = async (req, res, errors = null, success_msg = null) => {
     try {
         const note = await Note.findById(req.params.id);
 
@@ -48,7 +48,7 @@ notesCtrl.renderEditForm = async (req, res) => {
             return res.redirect('/notes');
         }
 
-        res.render('notes/edit-note', { note });
+        res.render('notes/edit-note', { note, errors, success_msg });
     } catch (error) {
         req.flash('error_msg', 'Error al obtener la nota.');
         res.redirect('/notes');
