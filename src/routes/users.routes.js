@@ -14,7 +14,7 @@ const {
 
 //Nuevo usuario
 router.get('/users/signup', renderSignUpForm);
-router.post('/users/signup', isValidated(createUserSchema, 'users/signup'), signUp);
+router.post('/users/signup', isValidated(createUserSchema, null, 'addUser'), signUp);
 
 //Iniciar sesión
 router.get('/users/signin', renderSignInForm);
