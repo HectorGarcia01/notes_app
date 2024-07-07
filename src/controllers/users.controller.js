@@ -9,24 +9,7 @@ usersCtrl.renderSignUpForm = (req, res) => {
 
 //Crear nuevo usuario
 usersCtrl.signUp = async (req, res) => {
-    const errors = [];
-    const { name, email, password, confirm_password } = req.body;
-
-    if (password != confirm_password) {
-        errors.push({ text: 'Las contraseñas no coinciden.' });
-    }
-
-    if (password.length < 8) {
-        errors.push({ text: 'La contraseña debe de tener un mínimo de 8 caracteres.' });
-    }
-
-    if (errors.length > 0) {
-        return res.render('users/signup', { 
-            errors,
-            name,
-            email
-        });
-    } 
+    const { name, email, password } = req.body; 
 
     try {
         const emailUser = await User.findOne({ email });
