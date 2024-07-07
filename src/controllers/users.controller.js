@@ -3,8 +3,8 @@ const passport = require('passport');
 const usersCtrl = {};
 
 //Renderizar el formulario para registrar nuevo usuario
-usersCtrl.renderSignUpForm = (req, res) => {
-    res.render('users/signup');
+usersCtrl.renderSignUpForm = (req, res, errors = null, name = null, email = null) => {
+    res.render('users/signup', { errors, name, email });
 };
 
 //Crear nuevo usuario
