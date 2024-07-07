@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const router = Router();
 
+const { isValidated } = require('../middlewares/validate');
+const { noteSchema } = require('../schemas/notes.schema');
 const { 
     renderNoteForm, 
     createNewNote,
@@ -13,14 +15,14 @@ const { isAuthenticated } = require('../middlewares/auth');
 
 //Nueva nota
 router.get('/notes/add', isAuthenticated, renderNoteForm);
-router.post('/notes/new-note', isAuthenticated, createNewNote);
+router.post('/notes/new-note', isAuthenticated, isValidated(noteSchema, 'notes/new-note'), createNewNote);
 
 //Obtener todas las notas
 router.get('/notes', isAuthenticated, renderNotes);
 
 //Editar notas
 router.get('/notes/edit/:id', isAuthenticated, renderEditForm);
-router.put('/notes/edit/:id', isAuthenticated, updateNote);
+router.put('/notes/edit/:id', isAuthenticated, isValidated(noteSchema, null, 'notes'), updateNote);
 
 //Eliminar notas
 router.delete('/notes/delete/:id', isAuthenticated, deleteNote);
