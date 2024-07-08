@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
+const moment = require('moment');
 
 //Inicializaciones
 const app = express();
@@ -22,6 +23,11 @@ const hbs = create({
     runtimeOptions: {
         allowProtoPropertiesByDefault: true,
         allowProtoMethodsByDefault: true
+    },
+    helpers: {
+        formatDate: function (date) {
+            return moment(date).format('YYYY-MM-DD');
+        }
     }
 });
 app.engine('.hbs', hbs.engine);
