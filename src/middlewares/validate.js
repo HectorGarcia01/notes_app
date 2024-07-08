@@ -1,4 +1,4 @@
-const { renderSignUpForm } = require('../controllers/users.controller');
+const { renderSignUpForm, renderEditProfileForm } = require('../controllers/users.controller');
 const { renderEditForm } = require('../controllers/notes.controller');
 const middleware = {};
 
@@ -11,7 +11,11 @@ middleware.isValidated = (schema, redirectUrl, data) => {
             const errors = error.details.map(err => ({ text: err.message }));
             
             if (data === 'addUser') {
-                return renderSignUpForm(req, res, errors, req.body.name, req.body.email);
+                return renderSignUpForm(req, res, errors, req.body.name, req.body.lastname, req.body.email);
+            }
+
+            if (data === 'userUpdate') {
+                return renderEditProfileForm(req, res, errors, 'Datos restaurados exitosamente.');
             }
 
             if (data === 'notes') {
