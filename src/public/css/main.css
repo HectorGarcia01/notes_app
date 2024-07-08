@@ -26,3 +26,25 @@
 .card {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+
+/* 
+    Diseño para el perfil 
+*/
+.profile-header {
+    text-align: center;
+    
+}
+
+.profile-header img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.actions .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
