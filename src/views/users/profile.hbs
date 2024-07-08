@@ -1,0 +1,33 @@
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card profile-header">
+            <div class="card-body">
+                <img src="/img/lelouch.jpg" alt="Profile Picture">
+                <h2>{{name}} {{lastname}}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-lg-5 mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="text-center">Información personal</h4>
+                <p><strong>Nombre:</strong> {{name}}</p>
+                <p><strong>Apellido:</strong> {{lastname}}</p>
+                <p><strong>Correo:</strong> {{email}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-lg-3 mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="text-center">Acciones</h4>
+                <div class="actions">
+                    <a href="/users/edit-profile" class="btn btn-primary">Actualizar Perfil</a>
+                    <a href="/notes/add" class="btn btn-primary">Agregar Nota</a>
+                    <a href="/notes" class="btn btn-primary">Ver Notas</a>
+                    <a href="/users/logout" class="btn btn-danger">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
