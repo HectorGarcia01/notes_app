@@ -16,6 +16,18 @@ validationSchemas.createUserSchema = Joi.object({
             'string.pattern.base': 'El campo {#label} contiene caracteres no permitidos. Se permite solo letras, números, espacios, guiones y guiones bajos.'
         }),
 
+    lastname: Joi.string()
+        .label('Apellido')
+        .min(3)
+        .required()
+        .trim()
+        .pattern(new RegExp(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s-_]+$/))
+        .messages({
+            'string.empty': customErrorMessages['string.empty'],
+            'string.min': customErrorMessages['string.min'],
+            'string.pattern.base': 'El campo {#label} contiene caracteres no permitidos. Se permite solo letras, números, espacios, guiones y guiones bajos.'
+        }),
+
     email: Joi.string()
         .label('Correo')
         .email({ tlds: { allow: ['com'] } })
@@ -66,6 +78,31 @@ validationSchemas.signInSchema = Joi.object({
         .trim()
         .messages({
             'string.empty': customErrorMessages['string.empty']
+        })
+});
+
+validationSchemas.updateUserSchema = Joi.object({
+    name: Joi.string()
+        .label('Nombre')
+        .min(5)
+        .required()
+        .trim()
+        .pattern(new RegExp(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s-_]+$/))
+        .messages({
+            'string.empty': customErrorMessages['string.empty'],
+            'string.min': customErrorMessages['string.min'],
+            'string.pattern.base': 'El campo {#label} contiene caracteres no permitidos. Se permite solo letras, números, espacios, guiones y guiones bajos.'
+        }),
+    lastname: Joi.string()
+        .label('Apellido')
+        .min(3)
+        .required()
+        .trim()
+        .pattern(new RegExp(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s-_]+$/))
+        .messages({
+            'string.empty': customErrorMessages['string.empty'],
+            'string.min': customErrorMessages['string.min'],
+            'string.pattern.base': 'El campo {#label} contiene caracteres no permitidos. Se permite solo letras, números, espacios, guiones y guiones bajos.'
         })
 });
 
