@@ -27,7 +27,8 @@ const hbs = create({
     helpers: {
         formatDate: function (date) {
             return moment(date).format('YYYY-MM-DD');
-        }
+        },
+        year: () => new Date().getFullYear()
     }
 });
 app.engine('.hbs', hbs.engine);
